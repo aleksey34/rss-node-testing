@@ -65,47 +65,10 @@ const handler = new HandlerCaesar(args);
     })
      const fileWr = `${item.output}`;
 
-    //  fs.existsSync(fileWr , e=>{
-    //    if(e){
-    //       fs.unlink(fileWr);
-    //    }
-    //  })
-      
-     
-// try {
-//   if (fs.existsSync({path:fileWr , fill: false})) {
-//     //file exists
-//   }
-// } catch(err) {
-//   handler.readFile().pipe( handler.transformFile()).pipe(process.stdout);
-
-// }
-
-// Getting information for a file
-// fs.stat( fileWr, { bigint: true }, (error, stats) => {
-  // if (error) {
-  //   console.log(error);
-  // }
-  // else {
-  //   console.log("Stats object for: example_file.txt");
-  //   console.log(stats);
   
-    // Using methods of the Stats object
- //   console.log("Path is file:", stats.isFile());
-  //  console.log("Path is directory:", stats.isDirectory());
-//   }
-// });
-
-// console.log(fs.stat(fileWr))
-//     fs.access( fileWr,fs.constants.F_OK,  (e) => {
-     
-//       if(e){
-//         handler.readFile().pipe( handler.transformFile()).pipe(process.stdout);
-//       } 
-//     });
 //    process.stdin.pipe(upperCaseTr).pipe(process.stdout);
 
-  
+ 
 
   const pipeline = Pipeline(
       handler.readFile() ,

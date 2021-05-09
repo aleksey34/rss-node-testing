@@ -144,11 +144,11 @@ isUpperCase = true;
    
       const file = `${item.output}`;
     
-    //   fs.access( file,fs.F_OK,  (e) => {
-    //    if(e){
-    //      return false;
-    //    } 
-    //  });
+      fs.access( file,fs.F_OK,  (e) => {
+       if(e){
+         return false;
+       } 
+     });
      return   fs.createWriteStream(file, {flags: 'a' , encoding: 'utf-8'}  );
     }
 
