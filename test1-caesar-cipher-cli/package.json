@@ -1,0 +1,19 @@
+{
+  "name": "test1-caesar-cipher-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "bin": ".bin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "caesar": "node caesar.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^7.2.0",
+    "minimist": "^1.2.5",
+    "pipeline": "^0.1.3"
+  }
+}
