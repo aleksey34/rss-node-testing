@@ -65,18 +65,39 @@ const handler = new HandlerCaesar(args);
     })
      const fileWr = `${item.output}`;
 
-  
+
+
+
+     fs.access(fileWr, fs.constants.F_OK | fs.constants.W_OK, (err) => {
+      if (err) {
+         process.stdin.pipe(handler.transformFile()).pipe(process.stdout);
+      } else {
+
+        console.log('3333')
+        // console.error(
+       
+        const pipeline = Pipeline(
+          handler.readFile() ,
+          handler.transformFile() ,
+          handler.writeFile()
+    );
+    pipeline.pipe(); 
+
+      }
+    });
+
+
 //    process.stdin.pipe(upperCaseTr).pipe(process.stdout);
 
  
 
-  const pipeline = Pipeline(
-      handler.readFile() ,
-      handler.transformFile() ,
-      handler.writeFile()
-);
+//   const pipeline = Pipeline(
+//       handler.readFile() ,
+//       handler.transformFile() ,
+//       handler.writeFile()
+// );
  
-pipeline.pipe();
+// pipeline.pipe();
 
 
    
