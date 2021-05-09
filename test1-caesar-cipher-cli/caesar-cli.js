@@ -3,9 +3,19 @@ import Pipeline from "pipeline";
 
 import fs from 'fs';
 
-// import minimist  from 'minimist'
+// import minimist  from 'minimist';
+
 // const ar = minimist(process.argv.slice(2));
-// console.log(ar);
+// if(Object.keys(ar).length !== 5) {
+//   process.stderr.on('data' , err=>{
+//     return 1;
+//   }); 
+ // return false;
+// }
+// console.log(file, options)
+//     if (Object.keys(file).length !== 5) {
+//       process.stderr();
+//      }
 
 
 import HandlerCaesar from "./HandlerCaesar.js";
@@ -24,6 +34,8 @@ program
   .option('-i, --input', 'input text')
   .option('-o, --output', 'output text')
   .action((file, options) => {
+
+
   let args = [];
     Object.keys(file).forEach((key , index)=>{
       if(file[key]){
@@ -56,6 +68,7 @@ program
         }
       })
     }
+   
 
 const handler = new HandlerCaesar(args);
 
@@ -73,8 +86,6 @@ const handler = new HandlerCaesar(args);
          process.stdin.pipe(handler.transformFile()).pipe(process.stdout);
       } else {
 
-        console.log('3333')
-        // console.error(
        
         const pipeline = Pipeline(
           handler.readFile() ,
