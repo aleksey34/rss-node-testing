@@ -3,19 +3,12 @@ import Pipeline from "pipeline";
 
 import fs from 'fs';
 
-// import minimist  from 'minimist';
+import minimist  from 'minimist';
 
-// const ar = minimist(process.argv.slice(2));
-// if(Object.keys(ar).length !== 5) {
-//   process.stderr.on('data' , err=>{
-//     return 1;
-//   }); 
- // return false;
-// }
-// console.log(file, options)
-//     if (Object.keys(file).length !== 5) {
-//       process.stderr();
-//      }
+const ar = minimist(process.argv.slice(2));
+if(Object.keys(ar).length !== 5) {
+  console.error("The args are not enough") ;
+}
 
 
 import HandlerCaesar from "./HandlerCaesar.js";
@@ -72,15 +65,33 @@ program
 
 const handler = new HandlerCaesar(args);
 
+// if read path wrong - console
+const itemR = args.find(i=>{
+  return i['input'] ;
+})
+ const fileR = `${itemR.input}`;
+ fs.access(fileR, fs.constants.F_OK | fs.constants.W_OK, (err) => {
+  if (err) {
+     process.stdin.pipe(handler.transformFile()).pipe(process.stdout);
+  } else {
 
-    const item = args.find(i=>{
+   
+    const pipeline = Pipeline(
+      handler.readFile() ,
+      handler.transformFile() ,
+      handler.writeFile()
+);
+pipeline.pipe(); 
+
+  }
+});
+
+
+// if write path  wrong - cosole
+    const itemW = args.find(i=>{
       return i['output'] ;
     })
-     const fileWr = `${item.output}`;
-
-
-
-
+     const fileWr = `${itemW.output}`;
      fs.access(fileWr, fs.constants.F_OK | fs.constants.W_OK, (err) => {
       if (err) {
          process.stdin.pipe(handler.transformFile()).pipe(process.stdout);
