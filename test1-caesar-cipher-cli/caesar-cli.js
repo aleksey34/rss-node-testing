@@ -3,9 +3,12 @@ import Pipeline from "pipeline";
 
 import fs from 'fs';
 
-// import minimist  from 'minimist'
-// const ar = minimist(process.argv.slice(2));
-// console.log(ar);
+import minimist  from 'minimist';
+
+const ar = minimist(process.argv.slice(2));
+if(Object.keys(ar).length !== 5) {
+  console.error("The args are not enough") ;
+}
 
 
 import HandlerCaesar from "./HandlerCaesar.js";
@@ -24,6 +27,8 @@ program
   .option('-i, --input', 'input text')
   .option('-o, --output', 'output text')
   .action((file, options) => {
+
+
   let args = [];
     Object.keys(file).forEach((key , index)=>{
       if(file[key]){
@@ -56,64 +61,65 @@ program
         }
       })
     }
+   
 
 const handler = new HandlerCaesar(args);
 
+// if read path wrong - console
+const itemR = args.find(i=>{
+  return i['input'] ;
+})
+ const fileR = `${itemR.input}`;
+ fs.access(fileR, fs.constants.F_OK | fs.constants.W_OK, (err) => {
+  if (err) {
+     process.stdin.pipe(handler.transformFile()).pipe(process.stdout);
+  } else {
 
-    const item = args.find(i=>{
-      return i['output'] ;
-    })
-     const fileWr = `${item.output}`;
-
-    //  fs.existsSync(fileWr , e=>{
-    //    if(e){
-    //       fs.unlink(fileWr);
-    //    }
-    //  })
-      
-     
-// try {
-//   if (fs.existsSync({path:fileWr , fill: false})) {
-//     //file exists
-//   }
-// } catch(err) {
-//   handler.readFile().pipe( handler.transformFile()).pipe(process.stdout);
-
-// }
-
-// Getting information for a file
-// fs.stat( fileWr, { bigint: true }, (error, stats) => {
-  // if (error) {
-  //   console.log(error);
-  // }
-  // else {
-  //   console.log("Stats object for: example_file.txt");
-  //   console.log(stats);
-  
-    // Using methods of the Stats object
- //   console.log("Path is file:", stats.isFile());
-  //  console.log("Path is directory:", stats.isDirectory());
-//   }
-// });
-
-// console.log(fs.stat(fileWr))
-//     fs.access( fileWr,fs.constants.F_OK,  (e) => {
-     
-//       if(e){
-//         handler.readFile().pipe( handler.transformFile()).pipe(process.stdout);
-//       } 
-//     });
-//    process.stdin.pipe(upperCaseTr).pipe(process.stdout);
-
-  
-
-  const pipeline = Pipeline(
+   
+    const pipeline = Pipeline(
       handler.readFile() ,
       handler.transformFile() ,
       handler.writeFile()
 );
+pipeline.pipe(); 
+
+  }
+});
+
+
+// if write path  wrong - cosole
+    const itemW = args.find(i=>{
+      return i['output'] ;
+    })
+     const fileWr = `${itemW.output}`;
+     fs.access(fileWr, fs.constants.F_OK | fs.constants.W_OK, (err) => {
+      if (err) {
+         process.stdin.pipe(handler.transformFile()).pipe(process.stdout);
+      } else {
+
+       
+        const pipeline = Pipeline(
+          handler.readFile() ,
+          handler.transformFile() ,
+          handler.writeFile()
+    );
+    pipeline.pipe(); 
+
+      }
+    });
+
+
+//    process.stdin.pipe(upperCaseTr).pipe(process.stdout);
+
  
-pipeline.pipe();
+
+//   const pipeline = Pipeline(
+//       handler.readFile() ,
+//       handler.transformFile() ,
+//       handler.writeFile()
+// );
+ 
+// pipeline.pipe();
 
 
    

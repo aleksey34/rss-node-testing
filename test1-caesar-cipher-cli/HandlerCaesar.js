@@ -89,7 +89,7 @@ isUpperCase = true;
         return i['input'] ;
       })
     const file = `${item.input}`;
-     fs.access( file,fs.F_OK,  (e) => {
+     fs.access( file,fs.constants.F_OK | fs.constants.W_OK,  (e) => {
       ///console.log(e ? 'it exists' : 'no passwd!');
       if(e){
           return false;
@@ -144,11 +144,11 @@ isUpperCase = true;
    
       const file = `${item.output}`;
     
-    //   fs.access( file,fs.F_OK,  (e) => {
-    //    if(e){
-    //      return false;
-    //    } 
-    //  });
+      fs.access( file,fs.constants.F_OK | fs.constants.W_OK,  (e) => {
+       if(e){
+         return false;
+       } 
+    });
      return   fs.createWriteStream(file, {flags: 'a' , encoding: 'utf-8'}  );
     }
 
